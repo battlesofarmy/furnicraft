@@ -26,13 +26,19 @@ const productSchema = gql`
     }
     
     type Query{
+        # Category 
+        allCategories: [Category]
+        
+        # SubCategory 
+        allSubcategories: [Subcategory]
+        subCategoriesByCategory(catId: String!): [Subcategory]
+
+        # Product 
         allPoducts: [Product]
         productsByCategory(catId: String!): [Product]
         productsBySubCategory(subCatId: String!): [Product]
         productById(_id: ID!): Product
 
-        getCategory: [Category]
-        getSubcategory: [Subcategory]
     }
 `;
 module.exports = productSchema;

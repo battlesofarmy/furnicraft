@@ -4,6 +4,20 @@ const SubCategoryModel = require('../../schemaModels/subCategorySchemaModel')
 
 const productResolver = {
     Query: {
+        // Category
+        allCategories: async()=>{
+            return await CategoryModel.find({});
+        }, 
+
+        // Sub Category
+        allSubcategories: async()=>{
+            return await SubCategoryModel.find({});
+        }, 
+        subCategoriesByCategory: async(_,{catId})=>{
+            return await SubCategoryModel.find({catId})
+        },
+
+        // Product
         allPoducts: async()=> {
             return await ProductModel.find({});
         },
@@ -17,12 +31,6 @@ const productResolver = {
             return await ProductModel.findOne({_id});
         }, 
 
-        getCategory: async()=>{
-            return await CategoryModel.find({});
-        }, 
-        getSubcategory: async()=>{
-            return await SubCategoryModel.find({});
-        }
     }
 }
 module.exports = productResolver;
