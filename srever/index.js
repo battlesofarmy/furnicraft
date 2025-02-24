@@ -21,21 +21,6 @@ mongoose.connect(uri)
 
 
 
-// Define GraphQL schema
-// const typeDefs = `#graphql
-//   type Query {
-//     hello: String
-//   }
-// `;
-
-// // Define resolvers
-// const resolvers = {
-//   Query: {
-//     hello: () => "Hello, GraphQL!",
-//   },
-// };
-
-
 // Start the server
 async function startApolloServer() {
     const server = new ApolloServer({ typeDefs, resolvers });
