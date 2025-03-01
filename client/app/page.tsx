@@ -6,6 +6,7 @@ export default function Home() {
       <section>
         <div className="container">
           <h2>Hello World. This is muntasir  ahmed World</h2>
+          <h2>Hello World. This is muntasir  ahmed World</h2>
         </div>
       </section>
     </>
