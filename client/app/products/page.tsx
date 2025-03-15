@@ -19,6 +19,16 @@ const ALL_SUBCATEGORY = gql`
 }
 `;
 
+interface Product{
+  _id: string, 
+  catId: string,
+  subCatId: string,
+  price: number,
+  model: string,
+  name: string,
+  img: string
+}
+
 export default function Products() {
 
   const { data } = useQuery(ALL_SUBCATEGORY, { 
@@ -33,7 +43,7 @@ export default function Products() {
 <section className="py-10">
             <div className="container">
                 <div className="grid grid-cols-4 gap-6">
-                {data?.productsBySubCategory.map((ele) => (
+                {data?.productsBySubCategory.map((ele: Product) => (
                     <div className="shadow relative" key={ele._id}>
                     <Link href={`/subcategory/${ele._id}`}>
                         <Image

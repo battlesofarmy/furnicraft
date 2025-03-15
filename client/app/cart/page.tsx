@@ -6,9 +6,15 @@ import Link from "next/link";
 
 export default function MyCart() {
   const { cartItems, increaseProdouctCount, decreaseProdouctCount, handleCartItemDelete } = useCart();
+
+  interface CartItem{
+    _id: string;
+    price: number;
+    count: number;
+  }
   
-  const calculateTotalPrice = () => cartItems.reduce((sum, ele) => sum + ele.price * ele.count, 0);
-  const totalItems = () => cartItems.reduce((sum, ele) => sum + ele.count, 0);
+  const calculateTotalPrice = () => cartItems.reduce((sum, ele: CartItem) => sum + ele.price * ele.count, 0);
+  const totalItems = () => cartItems.reduce((sum, ele: CartItem) => sum + ele.count, 0);
   
   return (
     <section className="py-20">
@@ -25,7 +31,7 @@ export default function MyCart() {
                 <h4 className="col-span-1 font-semibold">Remove</h4>
               </div>
 
-              {cartItems.map((item) => (
+              {cartItems.map((item: CartItem) => (
                 <CartItem
                   key={item._id}
                   item={item}
