@@ -76,8 +76,8 @@ export default function Products() {
                  (
 
 
-                  fahim.map(()=> 
-                    <div className="shadow relative">
+                  fahim.map((ele)=> 
+                    <div key={ele} className="shadow relative">
                        <Skeleton className="w-full h-[300px]" />
                  
 
