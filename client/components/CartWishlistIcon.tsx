@@ -16,8 +16,22 @@ const ADD_TO_CART = gql`
   }
 `;
 
+interface CartProps{
+  _id: string,
+  email?: string,
+  catId: string,
+  subCatId: string,
+  name: string,
+  price: number,
+  model: string,
+  count?: number,
+  img: string,
+}
+interface Props {
+  ele: CartProps;
+}
 
-export default function CartWishlistIcon({ele}) {
+export default function CartWishlistIcon({ele}: Props) {
 //   const { cartCount, setCartCount, wishlistCount, setWishlistCount } = useContext(CountContext);
 //   const {user} = useContext(AuthContext);
 
@@ -28,11 +42,11 @@ export default function CartWishlistIcon({ele}) {
   // });
   // console.log(ele)
   const {user} = useAuthStore();
-  const {cartCount, count} = useCounterStore();
+  const {cartCount} = useCounterStore();
 
 
 // Use useMutation hook
-const [addOrIncreaseCartCount, { loading, error }] = useMutation(ADD_TO_CART, { client });
+const [addOrIncreaseCartCount] = useMutation(ADD_TO_CART, { client });
 
 
 const addToCart = async () => {

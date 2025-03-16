@@ -28,7 +28,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname(); // Get current route
   const {user} = useAuthStore();
-  const {count, cartCount, setCount} = useCounterStore();
+  const {count, setCount} = useCounterStore();
 
   const CART_COUNT = gql`
      query($email: String!){

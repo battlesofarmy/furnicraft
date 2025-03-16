@@ -28,7 +28,8 @@ interface Product{
   price: number,
   model: string,
   name: string,
-  img: string
+  img: string,
+  count?: number
 }
 
 const fahim = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -83,7 +84,7 @@ export default function Products() {
 
                     {/* Prodcut wishlist & cart icon  */}
                     <div className="absolute top-2 right-2">
-                        <CartWishlistIcon ele={""} />
+                        {/* <CartWishlistIcon /> */}
                     </div>
                     <div className="p-3 bg-white text-center">
                        <Skeleton className="w-full h-[25px]" />
