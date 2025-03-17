@@ -1,10 +1,28 @@
 import { FiMinus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import Image from "next/image";
+import React from "react";
 
-const CartItem = ({ item, increaseProdouctCount, decreaseProdouctCount, handleCartItemDelete }) => {
+
+interface CartItemInterface{
+  _id: string,
+  name: string,
+  model: string, 
+  count: number,
+  img: string,
+  price: number,
+}
+
+interface cartInterface{
+  item: CartItemInterface,
+  increaseProdouctCount : (item: CartItemInterface)=> void,
+  decreaseProdouctCount: (item: CartItemInterface)=> void,
+  handleCartItemDelete : (item: CartItemInterface)=> void
+}
+
+const CartItem: React.FC<cartInterface> = ({ item, increaseProdouctCount, decreaseProdouctCount, handleCartItemDelete }) => {
   return (
-    <div key={item._id} className="grid grid-cols-8 place-items-center border-2 my-2">
+    <div className="grid grid-cols-8 place-items-center border-2 my-2">
       <div className="col-span-4">
         <div className="grid grid-cols-4 items-center">
           <Image width={100} height={100} className="col-span-1" src={item.img} alt="img" />

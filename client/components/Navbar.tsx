@@ -1,8 +1,3 @@
-// npx shadcn@latest init
-// npx shadcn@latest add sheet
-// npx shadcn@latest add button
-// Add tailwind container
-
 "use client";
 
 import { useState, useEffect } from "react";
