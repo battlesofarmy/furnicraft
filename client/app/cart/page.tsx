@@ -1,53 +1,31 @@
 "use client";
 
-import useCart from "@/hooks/useCart";
+import useCart, { UseCartReturn } from "@/hooks/useCart";
 import CartItem from "@/components/CartItem";
 import Link from "next/link";
 
 export default function MyCart() {
-  const { cartItems, increaseProdouctCount, decreaseProdouctCount, handleCartItemDelete } = useCart();
+  const { cartItems, increaseProductCount, decreaseProductCount, handleCartItemDelete }: UseCartReturn = useCart();
 
-  interface CartItem{
-    _id: string;
-    price: number;
-    count: number;
-  }
-  
-  const calculateTotalPrice = () => cartItems.reduce((sum, ele: CartItem) => sum + ele.price * ele.count, 0);
-  const totalItems = () => cartItems.reduce((sum, ele: CartItem) => sum + ele.count, 0);
-  
   return (
     <section className="py-20">
       <div className="container">
         {cartItems.length > 0 ? (
           <div className="grid grid-cols-8 gap-5">
-            {/* Cart Items */}
             <div className="col-span-5">
-              <div className="grid grid-cols-8 mb-3 place-items-center">
-                <h4 className="col-span-1 font-semibold">Product Img</h4>
-                <h4 className="col-span-3 font-semibold">Title</h4>
-                <h4 className="col-span-1 font-semibold">Price</h4>
-                <h4 className="col-span-2 font-semibold">Count</h4>
-                <h4 className="col-span-1 font-semibold">Remove</h4>
-              </div>
-
-              {cartItems.map((item: CartItem) => (
+              {cartItems.map((item) => (
                 <CartItem
                   key={item._id}
                   item={item}
-                  increaseProdouctCount={increaseProdouctCount}
-                  decreaseProdouctCount={decreaseProdouctCount}
-                  handleCartItemDelete={handleCartItemDelete}
+                  increaseProductCount={increaseProductCount}
+                  decreaseProductCount={decreaseProductCount}
+                  handleCartItemDelete={handleCartItemDelete} // ✅ This now matches the expected type
                 />
               ))}
             </div>
-
-            {/* Order Summary */}
             <div className="col-span-3 border shadow-sm p-10 mt-9">
               <h2 className="text-2xl font-semibold mb-5">Order Summary</h2>
-              <p>Subtotal ({totalItems()} items): {calculateTotalPrice()}</p>
-              <p>Shipping Fee: 100</p>
-              <p className="font-semibold">Total: {calculateTotalPrice() + 100}</p>
+              <p>Subtotal ({cartItems.length} items)</p>
               <Link href="/checkout">
                 <button className="bg-primary text-white py-2 rounded-sm mt-5 w-full">Checkout</button>
               </Link>

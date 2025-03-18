@@ -7,6 +7,7 @@ import React from "react";
 interface CartItemInterface{
   _id: string,
   name: string,
+  email: string,
   model: string, 
   count: number,
   img: string,
@@ -15,12 +16,12 @@ interface CartItemInterface{
 
 interface cartInterface{
   item: CartItemInterface,
-  increaseProdouctCount : (item: CartItemInterface)=> void,
-  decreaseProdouctCount: (item: CartItemInterface)=> void,
+  increaseProductCount : (item: CartItemInterface)=> void,
+  decreaseProductCount: (item: CartItemInterface)=> void,
   handleCartItemDelete : (item: CartItemInterface)=> void
 }
 
-const CartItem: React.FC<cartInterface> = ({ item, increaseProdouctCount, decreaseProdouctCount, handleCartItemDelete }) => {
+const CartItem: React.FC<cartInterface> = ({ item, increaseProductCount, decreaseProductCount, handleCartItemDelete }) => {
   return (
     <div className="grid grid-cols-8 place-items-center border-2 my-2">
       <div className="col-span-4">
@@ -38,7 +39,7 @@ const CartItem: React.FC<cartInterface> = ({ item, increaseProdouctCount, decrea
         <div className="flex justify-center items-center gap-2">
           {/* Decrease Button */}
           <div className={`${item.count < 2 ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}>
-            <div onClick={() => item.count > 1 && decreaseProdouctCount(item)} className="bg-gray-300 w-8 flex items-center justify-center text-xl">
+            <div onClick={() => item.count > 1 && decreaseProductCount(item)} className="bg-gray-300 w-8 flex items-center justify-center text-xl">
               <FiMinus />
             </div>
           </div>
@@ -47,7 +48,7 @@ const CartItem: React.FC<cartInterface> = ({ item, increaseProdouctCount, decrea
 
           {/* Increase Button */}
           <div className="cursor-pointer">
-            <div onClick={() => increaseProdouctCount(item)} className="bg-gray-300 w-8 text-xl text-center">+</div>
+            <div onClick={() => increaseProductCount(item)} className="bg-gray-300 w-8 text-xl text-center">+</div>
           </div>
         </div>
       </h4>
