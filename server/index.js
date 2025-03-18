@@ -11,11 +11,7 @@ const mongoose = require('mongoose');
 
 // Use Middleware
 // app.use(cors());
-  app.use(cors({
-    origin: "*", // Adjust for production
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-  }))
+app.use(cors())
 app.use(express.json());
 
 
@@ -28,8 +24,7 @@ mongoose.connect(uri)
 
 // Start the server
 async function startApolloServer() {
-    const server = new ApolloServer({ typeDefs, resolvers,  csrfPrevention: false, // ✅ Disable CSRF prevention
-        introspection: true, });
+    const server = new ApolloServer({ typeDefs, resolvers });
     await server.start();
 
     // Apply Express middleware
@@ -41,7 +36,7 @@ startApolloServer();
 
 
 app.get('/', (req, res)=>{
-    res.send('Hello fahim muntasir');
+    res.send('Hello');
     console.log('World');
 })
 
