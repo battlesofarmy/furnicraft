@@ -1,7 +1,8 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql", // Your GraphQL server URL
+  // uri: "http://localhost:5000/graphql", 
+  uri: "https://furnicraft-server.vercel.app", 
   cache: new InMemoryCache(),
 });
 

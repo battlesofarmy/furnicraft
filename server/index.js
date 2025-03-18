@@ -10,7 +10,12 @@ const uri = process.env.URI;
 const mongoose = require('mongoose');
 
 // Use Middleware
-app.use(cors());
+// app.use(cors());
+  app.use(cors({
+    origin: "*", // Adjust for production
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+  }))
 app.use(express.json());
 
 
@@ -23,7 +28,8 @@ mongoose.connect(uri)
 
 // Start the server
 async function startApolloServer() {
-    const server = new ApolloServer({ typeDefs, resolvers });
+    const server = new ApolloServer({ typeDefs, resolvers,  csrfPrevention: false, // ✅ Disable CSRF prevention
+        introspection: true, });
     await server.start();
 
     // Apply Express middleware
