@@ -41,7 +41,7 @@ startApolloServer();
 
 
 app.get('/', (req, res)=>{
-    res.send('Hello');
+    res.send('Hello fahim');
     console.log('World');
 })
 
