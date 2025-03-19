@@ -5,28 +5,50 @@ import { MdDelete } from "react-icons/md";
 import { FaBagShopping } from "react-icons/fa6";
 import Image from "next/image";
 import useAuthStore from "@/utils/store/authStore";
-import useCounterStore from "@/utils/store/itemCount";
-import useWishlistStore from "@/utils/store/wishlistStore";
+import client from "@/lib/apolloClient";
+import { gql, useQuery } from "@apollo/client";
+
+
+interface WishlistInterface{
+  _id : string
+  name: string,
+  img : string,
+  model: string,
+  price: string
+}
+
+
+const wishlistProducts = gql`
+query($email: String!){
+  wishlistByEmail(email: $email) {
+    products {
+      _id
+      name
+      img
+      model
+      price
+    }
+  }
+}
+`;
+
 
 export default function Wishlist() {
-   const {user, loading} = useAuthStore();
-   const [wishList, setWishlist] = useState([]);
-   const { wishlistCount, setWishlistCount} = useWishlistStore();
+   const {user} = useAuthStore();
+   const [wishlistItems, setWishlistItems] = useState([]);
    const [isProcessing, setIsProcessing] = useState(false); // State to track clicks
 
+   // Fetch the wishlist Data
+   const {data} = useQuery(wishlistProducts,{
+    variables: {email: user?.email}, 
+    client
+   })
+   useEffect(() => {
+     setWishlistItems(data?.wishlistByEmail.products || []);
+  }, [data]);
+  
 
-   // Load wishlist data
-   useEffect(()=>{
-     if(user?.email){
-        // axios.get(`http://localhost:5000/wishlist/${user?.email}`)
-        // api.get(`/wishlist/${user?.email}`)
-        // .then((res)=> {
-        //     setWishlist(res.data[0]?.products);
-        //     console.log(res.data[0]?.products)
-        // })
-        // .catch((err)=> console.log(err));
-      }
-   },[loading])
+
 
 
 // wishlist to cart 
@@ -40,12 +62,12 @@ const wishlistToCart = async (ele) => {
       // await api.patch(`/wishlist/${user.email}`, ele);
   
       // Update local wishlist state
-      setWishlistCount((prev) => prev - 1);
-      setWishlist((data) => data.filter((item) => item._id !== ele._id));
+      // setWishlistCount((prev) => prev - 1);
+      // setWishlistItems((data) => data.filter((item) => item._id !== ele._id));
   
       // Add to cart
-      const cartItem = { ...ele, email: user.email, count: 1 };
-      const addToCartPromise = axios.post("https://ecommerce.muntasir3301.xyz/carts", cartItem);
+      // const cartItem = { ...ele, email: user.email, count: 1 };
+      // const addToCartPromise = axios.post("https://ecommerce.muntasir3301.xyz/carts", cartItem);
 
       // toast.promise(addToCartPromise, {
       //   pending: "Adding product to cart...",
@@ -68,7 +90,7 @@ const wishlistToCart = async (ele) => {
     } finally{
         setIsProcessing(false)
     }
-  };
+};
   
 
 
@@ -82,8 +104,8 @@ const wishlistToCart = async (ele) => {
       // await axios.patch(`https://ecommerce.muntasir3301.xyz/wishlist/${user.email}`, ele);
   
       // Update wishlist state
-      setWishlistCount((prev) => prev - 1);
-      setWishlist((data) => data.filter((item) => item._id !== ele._id));
+      // setWishlistCount((prev) => prev - 1);
+      // setWishlistItems((data) => data.filter((item) => item._id !== ele._id));
     } catch (err) {
       console.error("Error during delete from wishlist:", err);
       // Optionally show a toast message or an alert
@@ -99,7 +121,7 @@ const wishlistToCart = async (ele) => {
             <div className="container">
                 <div className="shadow px-3 py-3 border">
                     {
-                        wishList.length>0 && 
+                        wishlistItems.length>0 && 
                         <div className="grid grid-cols-7 my-5 place-items-center">
                             <h4 className="col-span-1 text-lg font-semibold">Product Img</h4>
                             <h4 className="col-span-2 text-lg font-semibold">Products Name & model</h4>
@@ -110,7 +132,7 @@ const wishlistToCart = async (ele) => {
                     }
 
                 {
-                    wishList.length > 0 ? wishList.map(ele=>
+                    wishlistItems.length > 0 ? wishlistItems.map((ele:WishlistInterface)=>
                       <div key={ele._id} className="grid my-3 grid-cols-7 place-items-center border-2 py-2">
                           <div className="w-full pl-2">
                              <Image width={50} height={50} className="col-span-1 max-w-32" src={ele.img} alt="img" />
