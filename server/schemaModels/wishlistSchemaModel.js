@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 
 const wishliSchema = mongoose.Schema({
     email: { 
-        type: [String], 
+        type: String, 
         required: true, 
         match: [/^\S+@\S+\.\S+$/, 'Invalid email format'] 
     },
     // products: {type: [String]},
     products: [{  // Array of objects
-        id: { type: String, required: true }, 
+        catId: { type: String, required: true }, 
+        subCatId: { type: String, required: true }, 
         name: { type: String, required: true }, 
         img: { type: String, required: true},
         model: { type: String, required: true},

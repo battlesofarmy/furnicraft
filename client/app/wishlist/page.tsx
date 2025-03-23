@@ -33,6 +33,9 @@ query($email: String!){
 `;
 
 
+
+
+
 export default function Wishlist() {
    const {user} = useAuthStore();
    const [wishlistItems, setWishlistItems] = useState([]);
@@ -47,6 +50,7 @@ export default function Wishlist() {
      setWishlistItems(data?.wishlistByEmail.products || []);
   }, [data]);
   
+
 
 
 
@@ -92,9 +96,6 @@ const wishlistToCart = async (ele) => {
     }
 };
   
-
-
-
   // delete wishlist item
   const handleWishlistItemDelete = async (ele) => {
     if (isProcessing) return; // Prevent duplicate clicks
