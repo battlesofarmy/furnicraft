@@ -31,6 +31,7 @@ interface Product {
   name: string;
   img: string;
   count?: number;
+  wishlist: string;
 }
 
 
@@ -46,7 +47,7 @@ const WISHLIST_PRODUCT_ID =  gql`
 
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const {user} = useAuthStore();
   const { data } = useQuery(ALL_SUBCATEGORY, {
     variables: { subCatId: "1001" },
@@ -68,10 +69,10 @@ export default function Products() {
   useEffect(() => {
     // setProducts
     if(data?.productsBySubCategory && wishlist_product_id?.wishlistByEmail){
-      const productItems = data.productsBySubCategory.map(ele=> ({
+      const productItems = data.productsBySubCategory.map((ele: Product)=> ({
         ...ele,
         // johfa: (wishlist_product_id.wishlistByEmail.products),
-        wishlist: wishlist_product_id.wishlistByEmail.products.find(item=> item._id === ele._id)
+        wishlist: wishlist_product_id.wishlistByEmail.products.find((item: Product)=> item._id === ele._id)
       }));
       setProducts(productItems);
     }
@@ -89,9 +90,6 @@ export default function Products() {
               ? products.map((ele: Product) => (
                   <div className="shadow relative" key={ele._id}>
                     <Link href={`/subcategory/${ele._id}`}>
-                    {
-                      console.log(ele)
-                    }
                       <Image
                         src={ele.img}
                         alt={ele.name}

@@ -75,7 +75,9 @@ interface CartProps {
 }
 interface Props {
   ele: CartProps;
+  setProducts: React.Dispatch<React.SetStateAction<CartProps[]>>; // ✅ Add this line
 }
+
 
 export default function CartWishlistIcon({ ele, setProducts }: Props) {
 
@@ -122,30 +124,35 @@ export default function CartWishlistIcon({ ele, setProducts }: Props) {
   };
 
   const addToWishlist = async () => {
-    const { data } = await addOrRemovedToWishlist({
-      variables: {
-        id: ele._id,
-        catId: ele.catId,
-        subCatId: ele.subCatId,
-        name: ele.name,
-        email: user?.email,
-        img: ele.img,
-        model: ele.model,
-        price: ele.price,
-      },
-    });
-    console.log(data);
-
-
-       // Update state after wishlist change
-       setProducts((prevProducts: CartProps[]) =>
+    try {
+      const { data } = await addOrRemovedToWishlist({
+        variables: {
+          id: ele._id,
+          catId: ele.catId,
+          subCatId: ele.subCatId,
+          name: ele.name,
+          email: user?.email,
+          img: ele.img,
+          model: ele.model,
+          price: ele.price,
+        },
+      });
+  
+      // Toggle wishlist in state after mutation
+      setProducts((prevProducts) =>
         prevProducts.map((product) =>
-          product._id === ele._id ? { ...product, wishlist: !ele.wishlist } : product
+          product._id === ele._id
+            ? { ...product, wishlist: product.wishlist ? "" : "true" } // Toggle
+            : product
         )
       );
-      
+  
+      console.log("Wishlist updated:", data);
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
   };
-
+  
   return (
     <>
       {/* Wishlist icon  */}
